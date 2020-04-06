@@ -2,12 +2,12 @@
 A Classifed Information On Form
 
 Features
- - Staff Form
- - Rules Form
- - Others Form
- - About Form
+ - [x] Staff Form
+ - [x] Rules Form
+ - [x] Others Form
+ - [x] About Form
  
 www.pcpserv.cf
 
-If you want more plugins, DM  Lentou#9094 at Discord.
-Imma Practice more to code - Lentou
+**If you want more plugins, DM  Lentou#9094 at Discord.**
+**Imma Practice more to code - Lentou**
