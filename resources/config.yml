@@ -4,62 +4,43 @@
 #.                1 is for url from internet or source like "http://pocketpinas.cf/icon-pcp.png"
 # Supported § for color
 
-exit:
- title: "§fThank You"
- subtitle: "§bFor Viewing"
- button-name: "§l§4Exit"
- image-type: 0
- image-path: "textures/ui/icon_import"
+wikipedia:
+  title: "§lWikipedia"
+  return: "§l< Back"
+  content:
+    - "§7Greetings, §b{player}"
+    - ""
+    - "§7Welcome to Wikipedia of Your Server"
+    - ""
+    - "§7Here you can read all"
+    - "§7Informations regarding on this server"
 
-back:
- button-name: "§l§0< Back"
- image-type: 0
- image-path: "textures/ui/refresh_light"
-
-info:
- title-form: "§l§0Information"
- content: "§fSelect what you want to see"
-
-about:
- title-form: "§l§0About"
- button-name: "§l§0About§r\n§8tap to see information"
- image-type: 0
- image-path: "textures/ui/icon_book_writable"
- message:
-  - "About is all about your Server"
-  - "And This is Example"
-  - "Line Break"
-
-rules:
- title-form: "§l§0Rules"
- button-name: "§l§0Rules§r\n§8tap to see house rules"
- image-type: 0
- image-path: "textures/ui/recipe_book_icon"
- message:
-  - "Rules is simple"
-  - "No Griefing XD"
-  - "Lentou"
-
-staffs:
- title-form: "§l§0Staffs"
- button-name: "§l§0Staffs§r\n§8tap to see staffs"
- image-type: 0
- image-path: "textures/ui/icon_best3"
- message:
-  - "Staffs List"
-  - "Supported Default Colors"
-  - "Lentou: The Developer of This UI"
-
-#enable new button for other details like Patchnote/update of your server or a Wiki about Custom Enchants
-#enable-other-form: false if you dont need the other form
-enable-other-form: true
-other:
- title-form: "§l§cUpdated"
- button-name: "§l§0Updates§r\n§8tap to see updates"
- image-type: 0
- image-path: "textures/ui/mashup_world"
- message:
-  - "This is the Other Form"
-  - "If you want to add it"
-
+wiki:
+  about:
+    button: "About Us"
+    imgtype: 0
+    imgpath: ""
+    title: "About Us Title Form"
+    content:
+      - "You can add"
+      - "More Infos as much as"
+      - "You want"
+  ranks:
+    button: "Ranks"
+    imgtype: 1
+    imgpath: "https://img2.pngio.com/ranking-png-1-png-image-ranking-png-512_512.png"
+    title: "Ranks List"
+    content:
+      - "Rank 1: VIP"
+      - "Rank 2: MVP"
+      - "Rank 3: SVP"
+   others:
+     button: "Others"
+     imgtype: 0
+     imgpath: "textures/items/wooden_sword"
+     title: "Others"
+     content:
+       - "Edit the config.yml"
+       - "For More Info"
+# You can add more forms just follow the format.
 ...
