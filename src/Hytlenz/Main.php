@@ -7,7 +7,10 @@ use pocketmine\event\Listener;
 use pocketmine\utils\Config;
 use pocketmine\{Player, Server};
 use pocketmine\command\{Command, CommandSender};
-use jojoe77777\FormAPI\SimpleForm;
+
+use dktapps\pmforms\MenuForm;
+use dktapps\pmforms\MenuOption;
+use dktapps\pmforms\FormIcon;
 
 class Main extends PluginBase implements Listener{
   
@@ -17,7 +20,6 @@ class Main extends PluginBase implements Listener{
 		
 		@mkdir($this->getDataFolder());
 		$this->saveDefaultConfig();
-		$this->getResource("config.yml");
 		$this->config = $this->getConfig()->getAll();
 	}
 	
@@ -28,45 +30,53 @@ class Main extends PluginBase implements Listener{
 	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool{
 		switch($cmd->getName()){
 			case "info":
-				$this->infoForm($sender);
-				break;
+				$form = $this->infoForm();
+				$player->sendForm($form);
+			break;
 		}
 		return true;
 	}
 	
-	public function infoForm($sender){
-		$form = new SimpleForm(function (Player $sender, $data) {
-            		if (is_null($data)) return true;
-            		$buttons = array_keys($this->config["wiki"]);
-            		if (count($buttons) == $data) return;
-            		$button = $buttons[$data];
-			$this->pageForm($sender, $button);
-        	});
-        	$form->setTitle($this->config["wikipedia"]["title"]);
-        	$form->setContent(implode("\n", str_replace("{player}", $sender->getName(), $this->config["wikipedia"]["content"])));
-        	foreach(array_keys($this->config["wiki"]) as $wiki) {
-            		$form->addButton(
-				$this->config["wiki"]["$wiki"]["button"][0],
-				$this->config["wiki"]["$wiki"]["button"][1],
-				$this->config["wiki"]["$wiki"]["button"][2]
-			);
-        	}
-        	$form->sendToPlayer($sender);
+	public function infoForm() : MenuForm {
+		return new MenuForm(
+			$this->config["wikipedia"]["title"],
+			implode("\n", str_replace("{player}", $sender->getName(), $this->config["wikipedia"]["content"])),
+			foreach (array_keys($this->config["wiki"]) as $wiki) {
+				new MenuOption(
+					$this->config["wiki"]["$wiki"]["button"][0], 
+					new FormIcon($this->config["wiki"]["$wiki"]["button"][1], $this->config["wiki"]["$wiki"]["button"][2])
+				)
+			},
+			function (Player $submitter, int $selected) : void {
+				$buttons = array_keys($this->config["wiki"]);
+				if (count($buttons) == $selected) return;
+				$button = $buttons[$selected];
+				$this->pageForm($submmiter, $button);
+			},
+			
+			function(Player $submitter) : void {
+				$submitter->sendMessage("Thank you for Using");
+			}
+		);
 	}
 
 	public function pageForm($sender, $button){
-		$form = new SimpleForm(function (Player $sender, $data) {
-            		if (is_null($data)) return true;
-            		switch ($data) {
-                		case 0:
-					$this->infoForm($sender);
-				break;
-            		}
-        	});
-        	$form->setTitle($this->config["wiki"]["$button"]["title"]);
-        	$form->setContent(implode("\n", $this->config["wiki"]["$button"]["content"]));
-        	$form->addButton($this->config["wikipedia"]["return"]);
-        	$form->sendToPlayer($sender);
+		return new MenuForm(
+			$this->config["wiki"]["$button"]["title"],
+			implode("\n", $this->config["wiki"]["$button"]["content"]),
+			[
+				new MenuOption($this->config["wikipedia"]["return"])
+			],
+			function (Player $submitter, int $selected) : void {
+				$form = $this->infoForm();
+				$submitter->sendForm($form);
+			},
+			
+			function(Player $submitter) : void {
+				$form = $this->infoForm();
+				$submitter->sendForm($form);
+			}
+		);
 	}
 	
 }
