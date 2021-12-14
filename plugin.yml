@@ -7,3 +7,8 @@ main: Hytlenz\Main
 commands:
   info:
     description: "shows about the server"
+    permission: info.command
+    
+permissions:
+  info.command:
+    default: true
