@@ -60,7 +60,7 @@ class Main extends PluginBase implements Listener{
 		);
 	}
 
-	public function pageForm($sender, $button){
+	public function pageForm($sender, $button) : MenuForm {
 		return new MenuForm(
 			$this->config["wiki"]["$button"]["title"],
 			implode("\n", $this->config["wiki"]["$button"]["content"]),
