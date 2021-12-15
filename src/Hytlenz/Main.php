@@ -19,7 +19,6 @@ class Main extends PluginBase implements Listener{
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->getLogger()->info("Information has been revealed - Lentou");
 		
-		@mkdir($this->getDataFolder());
 		$this->saveDefaultConfig();
 		$this->config = $this->getConfig()->getAll();
 	}
@@ -32,7 +31,7 @@ class Main extends PluginBase implements Listener{
 		switch($cmd->getName()){
 			case "info":
 				$form = $this->infoForm();
-				$player->sendForm($form);
+				$sender->sendForm($form);
 			break;
 		}
 		return true;
@@ -52,16 +51,17 @@ class Main extends PluginBase implements Listener{
 				$buttons = array_keys($this->config["wiki"]);
 				if (count($buttons) == $selected) return;
 				$button = $buttons[$selected];
-				$this->pageForm($submmiter, $button);
+				$form = $this->pageForm($button);
+				$submitter->sendForm($form);
 			},
 			
 			function(Player $submitter) : void {
-				$submitter->sendMessage("Thank you for Using");
+				$submitter->sendMessage($this->config["wikipedia"]["thanks"]);
 			}
 		);
 	}
 
-	public function pageForm($sender, $button) : MenuForm {
+	public function pageForm(string $button) : MenuForm {
 		return new MenuForm(
 			$this->config["wiki"]["$button"]["title"],
 			implode("\n", $this->config["wiki"]["$button"]["content"]),
