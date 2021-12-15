@@ -28,18 +28,21 @@ class Main extends PluginBase {
 	}
 	
 	public function infoForm() : MenuForm {
+		$menuButtons = [];
+		foreach (array_keys($this->config["wiki"]) as $wiki) {
+			$menuButtons[] = new MenuOption(
+				$this->config["wiki"]["$wiki"]["button"][0], 
+				new FormIcon( 
+					($this->config["wiki"]["$wiki"]["button"][1]), 
+					(filter_var($this->config["wiki"]["$wiki"]["button"][1], FILTER_VALIDATE_URL) ? FormIcon::IMAGE_TYPE_URL : FormIcon::IMAGE_TYPE_PATH) 
+				)
+			);
+		}
+		
 		return new MenuForm(
 			$this->config["wikipedia"]["title"],
 			implode("\n", str_replace("{player}", $sender->getName(), $this->config["wikipedia"]["content"])),
-			foreach (array_keys($this->config["wiki"]) as $wiki) {
-				new MenuOption(
-					$this->config["wiki"]["$wiki"]["button"][0], 
-					new FormIcon( 
-						($this->config["wiki"]["$wiki"]["button"][1]), 
-						(filter_var($this->config["wiki"]["$wiki"]["button"][1], FILTER_VALIDATE_URL) ? FormIcon::IMAGE_TYPE_URL : FormIcon::IMAGE_TYPE_PATH) 
-					)
-				);
-			},
+			$menuButtons,
 			function (Player $submitter, int $selected) : void {
 				$buttons = array_keys($this->config["wiki"]);
 				if (count($buttons) == $selected) return;
