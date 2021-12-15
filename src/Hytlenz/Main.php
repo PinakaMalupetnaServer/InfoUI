@@ -53,7 +53,7 @@ class Main extends PluginBase {
 				$submitter->sendForm($form);
 			},
 			
-			function(Player $submitter) : void {
+			function(Player $submitter) use ($config) : void {
 				$submitter->sendMessage($config["wikipedia"]["thanks"]);
 			}
 		);
