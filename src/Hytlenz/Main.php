@@ -3,28 +3,18 @@
 namespace Hytlenz;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\event\Listener;
-use pocketmine\utils\Config;
 use pocketmine\player\Player;
-use pocketmine\Server;
 use pocketmine\command\{Command, CommandSender};
 
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use dktapps\pmforms\FormIcon;
 
-class Main extends PluginBase implements Listener{
+class Main extends PluginBase {
   
 	protected function onEnable() : void {
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->getLogger()->info("Information has been revealed - Lentou");
-		
 		$this->saveDefaultConfig();
 		$this->config = $this->getConfig()->getAll();
-	}
-	
-	protected function onDisable() : void {
-		$this->getLogger()->info("Information has been vanished - Lentou");
 	}
 	
 	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
