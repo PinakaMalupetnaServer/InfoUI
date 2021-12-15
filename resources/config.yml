@@ -5,7 +5,7 @@
 wikipedia:
   title: "§lWikipedia"
   return: "§l< Back"
-  thanks: "§eThank you for Viewing"
+  thanks: "§aThank You for Viewing"
   content:
     - "§7Greetings, §b{player}"
     - ""
