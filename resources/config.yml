@@ -8,6 +8,7 @@
 wikipedia:
   title: "§lWikipedia"
   return: "§l< Back"
+  thanks: "§aThank You for Viewing"
   content:
     - "§7Greetings, §b{player}"
     - ""
