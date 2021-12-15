@@ -45,7 +45,7 @@ class Main extends PluginBase {
 			$config["wikipedia"]["title"],
 			implode("\n", str_replace("{player}", $name, $config["wikipedia"]["content"])),
 			$menuButtons,
-			function (Player $submitter, int $selected) : void {
+			function (Player $submitter, int $selected) use ($config) : void {
 				$buttons = array_keys($config["wiki"]);
 				if (count($buttons) == $selected) return;
 				$button = $buttons[$selected];
@@ -54,7 +54,7 @@ class Main extends PluginBase {
 			},
 			
 			function(Player $submitter) : void {
-				$submitter->sendMessage($this->config["wikipedia"]["thanks"]);
+				$submitter->sendMessage($config["wikipedia"]["thanks"]);
 			}
 		);
 	}
@@ -68,12 +68,12 @@ class Main extends PluginBase {
 				new MenuOption($config["wikipedia"]["return"])
 			],
 			function (Player $submitter, int $selected) : void {
-				$form = $this->infoForm();
+				$form = $this->infoForm($submitter->getName());
 				$submitter->sendForm($form);
 			},
 			
 			function(Player $submitter) : void {
-				$form = $this->infoForm();
+				$form = $this->infoForm($submitter->getName());
 				$submitter->sendForm($form);
 			}
 		);
