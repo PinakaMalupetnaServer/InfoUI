@@ -11,40 +11,42 @@ use dktapps\pmforms\MenuOption;
 use dktapps\pmforms\FormIcon;
 
 class Main extends PluginBase {
-  
+	
 	protected function onEnable() : void {
 		$this->saveDefaultConfig();
-		$this->config = $this->getConfig()->getAll();
 	}
 	
 	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
 		switch($cmd->getName()){
 			case "info":
-				$form = $this->infoForm();
-				$sender->sendForm($form);
+				if ($sender instanceof Player) {
+					$form = $this->infoForm($sender->getName());
+					$sender->sendForm($form);
+				}
 			break;
 		}
 		return true;
 	}
 	
-	public function infoForm() : MenuForm {
+	public function infoForm(string $name) : MenuForm {
 		$menuButtons = [];
-		foreach (array_keys($this->config["wiki"]) as $wiki) {
+		$config = $this->getConfig()->getAll();
+		foreach (array_keys($config["wiki"]) as $wiki) {
 			$menuButtons[] = new MenuOption(
-				$this->config["wiki"]["$wiki"]["button"][0], 
+				$config["wiki"]["$wiki"]["button"][0], 
 				new FormIcon( 
-					($this->config["wiki"]["$wiki"]["button"][1]), 
-					(filter_var($this->config["wiki"]["$wiki"]["button"][1], FILTER_VALIDATE_URL) ? FormIcon::IMAGE_TYPE_URL : FormIcon::IMAGE_TYPE_PATH) 
+					($config["wiki"]["$wiki"]["button"][1]), 
+					(filter_var($config["wiki"]["$wiki"]["button"][1], FILTER_VALIDATE_URL) ? FormIcon::IMAGE_TYPE_URL : FormIcon::IMAGE_TYPE_PATH) 
 				)
 			);
 		}
 		
 		return new MenuForm(
-			$this->config["wikipedia"]["title"],
-			implode("\n", str_replace("{player}", $sender->getName(), $this->config["wikipedia"]["content"])),
+			$config["wikipedia"]["title"],
+			implode("\n", str_replace("{player}", $name, $config["wikipedia"]["content"])),
 			$menuButtons,
 			function (Player $submitter, int $selected) : void {
-				$buttons = array_keys($this->config["wiki"]);
+				$buttons = array_keys($config["wiki"]);
 				if (count($buttons) == $selected) return;
 				$button = $buttons[$selected];
 				$form = $this->pageForm($button);
@@ -58,11 +60,12 @@ class Main extends PluginBase {
 	}
 
 	public function pageForm(string $button) : MenuForm {
+		$config = $this->getConfig()->getAll();
 		return new MenuForm(
-			$this->config["wiki"]["$button"]["title"],
-			implode("\n", $this->config["wiki"]["$button"]["content"]),
+			$config["wiki"]["$button"]["title"],
+			implode("\n", $config["wiki"]["$button"]["content"]),
 			[
-				new MenuOption($this->config["wikipedia"]["return"])
+				new MenuOption($config["wikipedia"]["return"])
 			],
 			function (Player $submitter, int $selected) : void {
 				$form = $this->infoForm();
