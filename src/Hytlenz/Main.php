@@ -35,7 +35,7 @@ class Main extends PluginBase {
 				new MenuOption(
 					$this->config["wiki"]["$wiki"]["button"][0], 
 					new FormIcon($this->config["wiki"]["$wiki"]["button"][1], $this->config["wiki"]["$wiki"]["button"][2])
-				)
+				);
 			},
 			function (Player $submitter, int $selected) : void {
 				$buttons = array_keys($this->config["wiki"]);
