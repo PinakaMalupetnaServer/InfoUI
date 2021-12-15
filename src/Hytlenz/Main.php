@@ -32,7 +32,6 @@ class Main extends PluginBase {
 			$this->config["wikipedia"]["title"],
 			implode("\n", str_replace("{player}", $sender->getName(), $this->config["wikipedia"]["content"])),
 			foreach (array_keys($this->config["wiki"]) as $wiki) {
-				if () {
 				new MenuOption(
 					$this->config["wiki"]["$wiki"]["button"][0], 
 					new FormIcon( 
