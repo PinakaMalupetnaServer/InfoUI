@@ -32,9 +32,13 @@ class Main extends PluginBase {
 			$this->config["wikipedia"]["title"],
 			implode("\n", str_replace("{player}", $sender->getName(), $this->config["wikipedia"]["content"])),
 			foreach (array_keys($this->config["wiki"]) as $wiki) {
+				if () {
 				new MenuOption(
 					$this->config["wiki"]["$wiki"]["button"][0], 
-					new FormIcon($this->config["wiki"]["$wiki"]["button"][1], $this->config["wiki"]["$wiki"]["button"][2])
+					new FormIcon( 
+						($this->config["wiki"]["$wiki"]["button"][1]), 
+						(filter_var($this->config["wiki"]["$wiki"]["button"][1], FILTER_VALIDATE_URL) ? FormIcon::IMAGE_TYPE_URL : FormIcon::IMAGE_TYPE_PATH) 
+					)
 				);
 			},
 			function (Player $submitter, int $selected) : void {
