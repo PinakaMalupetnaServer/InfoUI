@@ -29,11 +29,11 @@ wiki:
       - "Rank 1: VIP"
       - "Rank 2: MVP"
       - "Rank 3: SVP"
-   others:
-     button: ["Others", "textures/items/wooden_sword"]
-     title: "Others"
-     content:
-       - "Edit the config.yml"
-       - "For More Info"
+  others:
+    button: ["Others", "textures/items/wooden_sword"]
+    title: "Others"
+    content:
+      - "Edit the config.yml"
+      - "For More Info"
 # You can add more forms just follow the format.
 ...
