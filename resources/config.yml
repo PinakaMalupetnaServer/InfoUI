@@ -5,42 +5,76 @@
 # Supported § for color
 
 wikipedia:
-  title: "§lWikipedia"
+  title: "§lHelp - Survival Mode"
   return: "§l< Back"
   content:
     - "§7Greetings, §b{player}"
     - ""
-    - "§7Welcome to Wikipedia of Your Server"
+    - "§7Welcome to Help Section"
     - ""
-    - "§7Here you can read all"
-    - "§7Informations regarding on this server"
-
+    - "If you need help about Survival Mode"
+    - "You can find it here."
 wiki:
-  about:
-    button: "About Us"
+  general:
+    button: "General"
     imgtype: 0
     imgpath: ""
-    title: "About Us Title Form"
+    title: "General"
     content:
-      - "You can add"
-      - "More Infos as much as"
-      - "You want"
-  ranks:
-    button: "Ranks"
-    imgtype: 1
-    imgpath: "https://img2.pngio.com/ranking-png-1-png-image-ranking-png-512_512.png"
-    title: "Ranks List"
+      - "Here are the general comamnds:"
+      - "/cps - Toggle CPS Counter"
+      - "/help - Show Help Form"
+      - "/list - List Players Playing"
+      - "/tell <player> <message> - Tell/Whisper to a player"
+      - "§o<player> is Player Name, <message> is your message§r"
+      - "/vote - Claim your vote"
+      - "/version - Gets Version of this server"
+      - "/wild - Teleport to Random Coordinates"
+  economy:
+    button: "Economy"
+    imgtype: 0
+    imgpath: ""
+    title: "Economy"
     content:
-      - "Rank 1: VIP"
-      - "Rank 2: MVP"
-      - "Rank 3: SVP"
-   others:
-     button: "Others"
-     imgtype: 0
-     imgpath: "textures/items/wooden_sword"
-     title: "Others"
-     content:
-       - "Edit the config.yml"
-       - "For More Info"
+      - "Here are the commands for money/economy"
+      - "/shop - Show Shop UI"
+      - "/mymoney - Get your current balance"
+      - "/mystatus - Get your money status (in %)"
+      - "/pay <player> <amount> - Pay money to a player"
+      - "§o<player> is Player Name, <amount> is Amount given in numbers§r"
+  report:
+    button: "Report"
+    imgtype: 0
+    imgpath: ""
+    title: "Report"
+    content:
+      - "Here you can report a player"
+      - "/report - Shows Report UI"
+  tp:
+    button: "Teleport"
+    imgtype: 0
+    imgpath: ""
+    title: "Teleport"
+    content:
+      - "Here are the commands for teleportation"
+      - "/tpa - Send Request to teleport yourself to specific player"
+      - "/tpahere - Send Request to teleport specific player to yourself"
+      - "/tpaccept - Accept Teleport Request"
+      - "/tpdeny - Deny Teleport Request"
+  homes:
+    button: "Homes"
+    imgtype: 0
+    imgpath: ""
+    title: "Homes"
+    content:
+      - "Here are the command for Homes"
+      - "/home - Shows Homes UI"
+  factions:
+    button: "Factions"
+    imgtype: 0
+    imgpath: ""
+    title: "Factions"
+    content:
+      - "§b§oCurrently not available"
 # You can add more forms just follow the format.
 ...
