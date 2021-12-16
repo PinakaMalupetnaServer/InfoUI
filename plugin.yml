@@ -5,5 +5,5 @@ author: Hytlenz
 main: Hytlenz\Main
 
 commands:
-  help:
+  smhelp:
     description: "Shows Help Information about this Gamemode"
