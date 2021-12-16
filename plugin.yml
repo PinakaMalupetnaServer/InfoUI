@@ -5,5 +5,5 @@ author: Hytlenz
 main: Hytlenz\Main
 
 commands:
-  info:
-    description: "shows about the server"
+  help:
+    description: "Shows Help Information about this Gamemode"
