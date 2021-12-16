@@ -3,69 +3,80 @@
 namespace Hytlenz;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\event\Listener;
-use pocketmine\utils\Config;
-use pocketmine\{Player, Server};
+use pocketmine\player\Player;
 use pocketmine\command\{Command, CommandSender};
-use jojoe77777\FormAPI\SimpleForm;
 
-class Main extends PluginBase implements Listener{
-  
-	public function onEnable(){
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->getLogger()->info("Information has been revealed");
-		
-		@mkdir($this->getDataFolder());
-		$this->saveResource("config.yml");
-		$this->cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+use dktapps\pmforms\MenuForm;
+use dktapps\pmforms\MenuOption;
+use dktapps\pmforms\FormIcon;
+
+class Main extends PluginBase {
+	
+	protected function onEnable() : void {
+		$this->saveDefaultConfig();
 	}
 	
-	public function onDisable(){
-		$this->getLogger()->info("Information has been leashed");
-	}
-	
-	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool{
+	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
 		switch($cmd->getName()){
 			case "info":
-				$this->infoForm($sender);
-				break;
+				if ($sender instanceof Player) {
+					$form = $this->infoForm($sender->getName());
+					$sender->sendForm($form);
+				}
+			break;
 		}
 		return true;
 	}
 	
-	public function infoForm($sender){
-		$form = new SimpleForm(function (Player $sender, $data) {
-            		if (is_null($data)) return true;
-            		$buttons = array_keys($this->cfg->get("wiki"));
-            		if (count($buttons) == $data) return;
-            		$button = $buttons[$data];
-			$this->pageForm($sender, $button);
-        	});
-        	$form->setTitle($this->cfg->getNested("wikipedia.title"));
-        	$form->setContent(implode("\n", str_replace("{player}", $sender->getName(), $this->cfg->getNested("wikipedia.content"))));
-        	foreach(array_keys($this->cfg->get("wiki")) as $wiki) {
-            		$form->addButton(
-				$this->cfg->getNested("wiki." . $wiki . ".button"),
-				$this->cfg->getNested("wiki." . $wiki . ".imgtype"), 
-				$this->cfg->getNested("wiki." . $wiki . ".imgpath")
+	public function infoForm(string $name) : MenuForm {
+		$menuButtons = [];
+		$config = $this->getConfig()->getAll();
+		foreach (array_keys($config["wiki"]) as $wiki) {
+			$menuButtons[] = new MenuOption(
+				$config["wiki"]["$wiki"]["button"][0], 
+				new FormIcon( 
+					($config["wiki"]["$wiki"]["button"][1]), 
+					(filter_var($config["wiki"]["$wiki"]["button"][1], FILTER_VALIDATE_URL) ? FormIcon::IMAGE_TYPE_URL : FormIcon::IMAGE_TYPE_PATH) 
+				)
 			);
-        	}
-        	$form->sendToPlayer($sender);
+		}
+		
+		return new MenuForm(
+			$config["wikipedia"]["title"],
+			implode("\n", str_replace("{player}", $name, $config["wikipedia"]["content"])),
+			$menuButtons,
+			function (Player $submitter, int $selected) use ($config) : void {
+				$buttons = array_keys($config["wiki"]);
+				if (count($buttons) == $selected) return;
+				$button = $buttons[$selected];
+				$form = $this->pageForm($button);
+				$submitter->sendForm($form);
+			},
+			
+			function(Player $submitter) use ($config) : void {
+				$submitter->sendMessage($config["wikipedia"]["thanks"]);
+			}
+		);
 	}
 
-	public function pageForm($sender, $button){
-		$form = new SimpleForm(function (Player $sender, $data) {
-            		if (is_null($data)) return true;
-            		switch ($data) {
-                		case 0:
-					$this->wikiForm($sender);
-				break;
-            		}
-        	});
-        	$form->setTitle($this->cfg->getNested("wiki." . $button . ".title"));
-        	$form->setContent(implode("\n", $this->cfg->getNested("wiki." . $button . ".content")));
-        	$form->addButton($this->cfg->getNested("wikipedia.return"));
-        	$form->sendToPlayer($sender);
+	public function pageForm(string $button) : MenuForm {
+		$config = $this->getConfig()->getAll();
+		return new MenuForm(
+			$config["wiki"]["$button"]["title"],
+			implode("\n", $config["wiki"]["$button"]["content"]),
+			[
+				new MenuOption($config["wikipedia"]["return"])
+			],
+			function (Player $submitter, int $selected) : void {
+				$form = $this->infoForm($submitter->getName());
+				$submitter->sendForm($form);
+			},
+			
+			function(Player $submitter) : void {
+				$form = $this->infoForm($submitter->getName());
+				$submitter->sendForm($form);
+			}
+		);
 	}
 	
 }
