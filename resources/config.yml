@@ -39,7 +39,7 @@ wiki:
       - "Here are the commands for money/economy"
       - "/shop - Show Shop UI"
       - "/mymoney - Get your current balance"
-      - "/mystatus - Get your money status (in %)"
+      - "/mystatus - Get your money status (in percentage)"
       - "/pay <player> <amount> - Pay money to a player"
       - "§o<player> is Player Name, <amount> is Amount given in numbers§r"
   report:
