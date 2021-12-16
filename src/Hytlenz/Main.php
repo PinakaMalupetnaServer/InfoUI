@@ -58,7 +58,7 @@ class Main extends PluginBase implements Listener{
             		if (is_null($data)) return true;
             		switch ($data) {
                 		case 0:
-					$this->wikiForm($sender);
+					$this->infoForm($sender);
 				break;
             		}
         	});
